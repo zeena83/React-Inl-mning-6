@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+  <title>REACT-INLÄMNING-6</title>
+  <meta charset="utf-8"/> 
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://unpkg.com/react@latest/dist/react.js"></script>
+  <script src="https://unpkg.com/react-dom@latest/dist/react-dom.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+</head>
+
+<body>
+  
+	<div class="container">
+    
+		<h1>REACT</h1>
+			<div class="container">
+				 <div class="row">
+					 <div class="col-md-12"> 
+						 <div id="React-app">without React</div>
+					 </div>
+				</div>     
+			 </div>
+
+
+
+<script type="text/babel">
+
+    
+
+ 
+class AppReact extends React.Component {
+  constructor(props){
+    super(props);
+    this.state={
+      förnamn:'',
+      efternamn: '',
+      antaletId: 3,
+      dataList: [
+           {
+            förnamn: "Elona",
+            efternamn: "Haidow",
+            id:0
+            },
+            {
+            förnamn: "Enana",
+            efternamn: "Haidow",
+            id:1
+            },
+            {
+            förnamn: "Zeena",
+            efternamn: "Elia",
+            id:2
+            }
+            
+      ]
+    };
+    this.addInput=this.addInput.bind(this);
+    this.addNewObject=this.addNewObject.bind(this);
+    this.clickOnData=this.clickOnData.bind(this);
+   
+  }
+  
+  render(){
+    return (<div>
+      <AddForm inputInfor={this.addInput} buttonClick={this.addNewObject} 
+      updateState={this.state}/> 
+      <MyInfo theList={this.state.dataList} onClickAp={this.clickOnData}  />
+      
+    </div>);
+  }
+  
+  addInput(event){
+       var x = event.target;
+       if (x.placeholder == "Förnamn")
+       this.setState({ förnamn: x.value });
+       else if (x.placeholder == "Efternamn")
+       this.setState({ efternamn: x.value });
+     } 
+      
+  addNewObject(event) {
+       var newListData = this.state.dataList;
+       newListData.push({
+			förnamn: this.state.förnamn,
+			efternamn: this.state.efternamn,
+			id: this.state.antaletId
+		  });
+          this.setState ({
+          dataList: newListData,
+          antaletId: this.state.antaletId+1
+      }); 
+     
+  }
+  
+  clickOnData(event) {
+      let y= event.target.parentNode;
+       this.setState ({
+       förnamn: y.childNodes[0].innerText, 
+       efternamn: y.childNodes[1].innerText
+     });
+   
+  }
+   
+    
+}
+   
+
+class MyInfo extends React.Component {
+     constructor(props) {
+       super(props);
+     }
+     render() { 
+         const items = this.props.theList.map( item => {
+         return <li className="liClass"  key={item.id} id={item.id} onClick={this.props.onClickAp} >
+                 <span>{item.förnamn +"  "}</span> 
+					 <span>{item.efternamn}</span>
+					 
+               </li>
+                   
+      });
+      return <ol>
+          {items}
+       </ol>;
+       
+    }
+}
+   
+   
+class AddForm extends React.Component {
+        constructor(props) {
+        super(props);
+        }
+        render(){
+			 return <div>
+						 <input
+						 type="text" 
+						 placeholder="Förnamn" 
+						 onChange={this.props.inputInfor} 
+						 value={this.props.updateState.förnamn} />
+						 <input 
+						 type="text" 
+						 placeholder="Efternamn" 
+						 onChange={this.props.inputInfor} 
+						 value={this.props.updateState.efternamn}/>
+                         <button type="button" className="btn btn-warning"
+						 onClick={this.props.buttonClick}>Add</button>
+				   </div>;
+        
+      }
+        
+ }
+
+ 
+
+ ReactDOM.render(<AppReact/>,
+		document.getElementById('React-app'));
+		
+		
+		
+		
+	  </script>
+		</div> 
+  </body>
+</html>
